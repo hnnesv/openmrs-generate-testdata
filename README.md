@@ -20,6 +20,4 @@ Troubleshooting
 ```
 sudo apt-get install libdatetime-perl
 ```
-* For very large datasets, the queries may timeout. To fix this, alter/add the following lines in my.cnf:
-** max_allowed_packet = 64M (under both [mysqld] and [mysqldump])
-** wait_timeout = 6000
+* For very large datasets, the queries may timeout. To fix this, alter/add the following lines in my.cnf: ```max_allowed_packet = 64M``` (under both [mysqld] and [mysqldump]) and ```wait_timeout = 6000```
