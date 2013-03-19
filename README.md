@@ -11,7 +11,7 @@ Usage
 -----
 The script simply outputs the results to STDOUT:
 ```
-./openmrs_gendata.pl NUM_PATIENTS NUM_ENCOUNTERS_PER_PATIENT | mysql DB -uUSER -p
+./openmrs-generate-testdata.pl NUM_PATIENTS NUM_ENCOUNTERS_PER_PATIENT | mysql DB -uUSER -p
 ```
 
 Troubleshooting
