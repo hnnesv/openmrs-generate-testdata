@@ -1,5 +1,5 @@
-openmrs_gendata.pl
-==================
+openmrs-generate-testdata.pl
+============================
 
 A script for generating random test data for OpenMRS.
 
