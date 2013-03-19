@@ -5,7 +5,16 @@ A script for generating random test data for OpenMRS.
 
 The script generates SQL statements for inserting randomly generated patients with encounters.
 
-Note that this script is very basic and hardcoded for our particular use case.
+Note that this script is very basic and hardcoded for our particular use case. If you want to alter it for you own use, edit the variables appropriately:
+
+```
+# Configure us:
+my $creator_id = 1;       #Super user
+my $person_start_id = 37; #The first person id to use
+etc.
+```
+
+Note that it also depends on specific concepts, setup at the bottom of the script in the ```obs``` section.
 
 Usage
 -----
