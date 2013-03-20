@@ -4,14 +4,17 @@ use warnings;
 use DateTime;
 
 # Configure us:
-my $creator_id = 1;				#Super user
-my $person_start_id = 37;		#The first person id to use
-my $identifier_type = 3;		#ECID
-my $location_id = 15;			#Unknown
-my $encounter_start_id = 1;		#The first encounter id to use
-my $encounter_type = 5;			#ANC
-my $provider_id = 36;			#HIM User
-my $form_id = 1;				#ANC Physical
+my $creator_id = 1;		#Super user
+my $person_start_id = 55;	#The first person id to use
+my $identifier_type = 3;	#ECID
+my $location_id = 15;		#Unknown
+my $encounter_start_id = 51;	#The first encounter id to use
+my $encounter_type = 5;		#ANC
+my $provider_id = 36;		#HIM User
+my $form_id = 1;		#ANC Physical
+
+#obs insert will have num_obs_per_encounter*$num_encounters_per_insert items per statement
+my $num_encounters_per_insert = 1000;
 ####
 
 if ($#ARGV<1) {
@@ -63,25 +66,42 @@ print ";\n";
 
 #encounter
 my $enc_id = $encounter_start_id;
+my $threshold = 0;
+my $insert_encounter = "insert into encounter (encounter_id, encounter_type, patient_id, provider_id, location_id, form_id, encounter_datetime, creator, date_created, uuid) values \n";
+print $insert_encounter;
+
 for (my $id=$person_start_id; $id<$ARGV[0]+$person_start_id; $id++) {
-	print "insert into encounter (encounter_id, encounter_type, patient_id, provider_id, location_id, form_id, encounter_datetime, creator, date_created, uuid) values \n";
 	for (my $i=0; $i<$ARGV[1]; $i++) {
+		if ($threshold==$num_encounters_per_insert) {
+			print ";\n$insert_encounter";
+			$threshold = 0;
+		}
+
 		my $y = 2000 + int(rand(13));
 		my $m = 1 + int(rand(12));
 		my $d = 1 + int(rand(28));
-		print "," if $i;
+		print "," if $i or $threshold;
 		print "($enc_id, $encounter_type, $id, $provider_id, $location_id, $form_id, '$y-$m-$d', $creator_id, $date_created, uuid())\n";
 		$enc_id++;
+		$threshold++;
 	}
-	print ";\n";
 }
+print ";\n";
 
 #obs
 $enc_id = $encounter_start_id;
+$threshold = 0;
+my $insert_obs = "insert into obs (person_id, concept_id, value_numeric, encounter_id, location_id, creator, date_created, uuid) values \n";
+print $insert_obs;
+
 for (my $id=$person_start_id; $id<$ARGV[0]+$person_start_id; $id++) {
-	print "insert into obs (person_id, concept_id, value_numeric, encounter_id, location_id, creator, date_created, uuid) values \n";
 	for (my $i=0; $i<$ARGV[1]; $i++) {
-		print "," if $i;
+		if ($threshold==$num_encounters_per_insert) {
+			print ";\n$insert_obs";
+			$threshold = 0;
+		}
+
+		print "," if $i or $threshold;
 
 		#weight
 		my $wgt = 50 + int(rand(30));
@@ -103,9 +123,10 @@ for (my $id=$person_start_id; $id<$ARGV[0]+$person_start_id; $id++) {
 		print ",($id, 160315, $fhr, $enc_id, $location_id, $creator_id, $date_created, uuid())\n";
 
 		$enc_id++;
+		$threshold++;
 	}
-	print ";\n";
 }
+print ";\n";
 
 
 ####
