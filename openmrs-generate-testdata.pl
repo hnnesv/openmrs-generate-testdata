@@ -64,6 +64,8 @@ print ";\n";
 
 # Generate insert ANC Physical encounter statements
 
+exit 0 if $ARGV[1]==0; #nothing more to do
+
 #encounter
 my $enc_id = $encounter_start_id;
 my $threshold = 0;
