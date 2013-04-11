@@ -82,7 +82,7 @@ for (my $id=$person_start_id; $id<$ARGV[0]+$person_start_id; $id++) {
 		my $y = 2000 + int(rand(13));
 		my $m = 1 + int(rand(12));
 		my $d = 1 + int(rand(28));
-		print "," if $i or $threshold;
+		print "," if $threshold;
 		print "($enc_id, $encounter_type, $id, $provider_id, $location_id, $form_id, '$y-$m-$d', $creator_id, $date_created, uuid())\n";
 		$enc_id++;
 		$threshold++;
@@ -103,7 +103,7 @@ for (my $id=$person_start_id; $id<$ARGV[0]+$person_start_id; $id++) {
 			$threshold = 0;
 		}
 
-		print "," if $i or $threshold;
+		print "," if $threshold;
 
 		#weight
 		my $wgt = 50 + int(rand(30));
